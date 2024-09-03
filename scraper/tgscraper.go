@@ -269,8 +269,8 @@ func (r *TgScraper) parseMessage(message *client.Message) (*Status, error) {
 	}
 
 	regionStr := match[3]
-	regionId, err := region.Parse(regionStr)
-	if err != nil {
+	regionId := region.ParseName(regionStr)
+	if regionId == region.Invalid {
 		return nil, nil
 	}
 

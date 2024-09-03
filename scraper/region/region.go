@@ -1,7 +1,6 @@
 package region
 
 import (
-	"fmt"
 	"iter"
 )
 
@@ -75,13 +74,22 @@ func init() {
 	}
 }
 
-// Parse converts a region name to its corresponding ID.
-// Returns an error if the name is not found.
-func Parse(name string) (ID, error) {
+// ParseName converts a region name to its corresponding ID.
+// Returns Invalid ID if the name is not found.
+func ParseName(name string) ID {
 	if id, exists := idsByName[name]; exists {
-		return id, nil
+		return id
 	}
-	return Invalid, fmt.Errorf("name '%s' doesn't exist", name)
+	return Invalid
+}
+
+// ParseId converts integer id to its corresponding ID.
+// Returns Invalid ID if the id is not found.
+func ParseId(id int) ID {
+	if _, exists := namesById[ID(id)]; exists {
+		return ID(id)
+	}
+	return Invalid
 }
 
 // Count returns the number of regions in the package.
