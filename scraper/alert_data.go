@@ -67,6 +67,17 @@ func (r *AlertData) GetByRegion(id region.ID) (Status, error) {
 	return *currentStatus, nil
 }
 
+// GetAll retrieves the alert statuses for all regions
+func (r *AlertData) GetAll() []Status {
+	r.lock.RLock()
+	defer r.lock.RUnlock()
+	statuses := make([]Status, 0, len(r.data))
+	for _, status := range r.data {
+		statuses = append(statuses, *status)
+	}
+	return statuses
+}
+
 func (r *AlertData) set(newStatus *Status) {
 	if newStatus == nil {
 		return
